@@ -35,6 +35,6 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-
+#exclude personal ntoes from public reach
 notes.txt
 
