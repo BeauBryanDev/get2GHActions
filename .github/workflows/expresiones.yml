@@ -1,0 +1,37 @@
+# .github/workflows/saludo_multievento.yml
+
+name: Hi There
+
+run-name :  multi-event gretting
+
+# Eventos que disparan el workflow
+on:
+  push:
+    branches:
+      - main # Solo se activa en pushes a la rama main
+  pull_request:
+    # Puedes añadir tipos específicos si quieres, ej:
+    # types: [opened, synchronize]
+  schedule:
+    # Ejecuta a las 00:00 UTC todos los días (ajusta según necesites)
+    - cron: '0 0 * * *'
+
+# Trabajos que se ejecutarán
+jobs:
+  saludar_y_mostrar_fecha: # Un nombre de job más descriptivo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determinar y mostrar saludo según el evento
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            echo " ¡Saludos! Hubo actividad en Evento: Push"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "¡Saludos! Hubo actividad en una Pull Request. (Evento: Pull Request)"
+          elif [ "${{ github.event_name }}" == "schedule" ]; then
+            echo " la ejecución programada. (Evento: Schedule)"
+          else
+            echo "Evento desconocido: ${{ github.event_name }}"
+          fi
+
+      - name: Mostrar Fecha Actual
+        run: date

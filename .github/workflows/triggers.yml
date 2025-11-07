@@ -26,10 +26,10 @@ on:
       nombre:
         description: 'Tu nombre'
         required: true
-        default: Juan
+        default: Bryan
         type: string
   schedule:
-    - cron:  '15 22 * * *'
+    - cron:  '15 18 * * *'
 jobs:
   hola-mundo-manual:
     runs-on: ubuntu-latest
