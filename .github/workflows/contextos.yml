@@ -1,0 +1,41 @@
+name: Reto 4 - Actions Context 
+
+on: [push, pull_request]
+
+env:
+
+  var1: Learning
+  var2: Github-Actions
+  var3: Contexts
+  
+jobs:
+
+  check-main:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - run: echo "Desplegando en la rama $GITHUB_REF"
+
+  Contexto-env:
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - name: echo env
+      
+        run: echo "${{ env.var1 }}_${{ env.var2}}_${{ env.var3}}"
+        
+  Contexto-github:
+  
+    if: ${{ github.ref == 'refs/heads/main' }}
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - name: echo $GITHUB_REF"
+      
+        run: echo "Desplegando en la rama $GITHUB_REF"
