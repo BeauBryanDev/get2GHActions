@@ -1,0 +1,205 @@
+GITHUB ACTIONS 
+
+- Es una herramienta que nos ayuda a automatizar procesos del flujo de trabajo en el desarrollo de software.
+
+- Flujos de integración y despliegue continuo
+
+- Los flujos de integración nos ayudan a detectar errores al automatizar el testeo del código.
+
+- El despliegue continuo automatiza el despliegue de la aplicación a un entorno de desarrollo.
+
+- ¿Qué ventajas nos ofrece GitHub Actions?
+
+- Está integrado por defecto con GitHub.
+
+- Es fácil de configurar.
+
+- Tiene un ecosistema con mucho apoyo de la comunidad.
+
+- Es escalable.
+
+- Componentes y conceptos
+
+- Workflow: Una colección de procesos con un orden definido.
+
+- Job: Es un conjunto de procesos que pueden correr en paralelo.
+
+- Step: Es un proceso o tarea individual.
+
+- Action: Es una unidad de código reusable, que realiza una tarea especifica.
+
+- Desarrollo de un proyecto de automatización
+
+- Buenas practicas
+
+- Mantener el flujo de trabajo modular y reusable.
+
+- Usar un control de versiones.
+
+- Utilizar variables de entorno para almacenar información sensible.
+
+- Implementar un sistema de manejo de errores y notificaciones.
+
+
+INTRO ::
+
+Introducción a GitHub Actions
+Plataforma de CI/CD para automatizar flujos de trabajo.
+Ventajas de GitHub Actions
+Automatización de procesos de compilación, pruebas y despliegue.
+Componentes y conceptos
+Flujos de integración continua y despliegue continuo.
+Casos de uso
+Ejecución de acciones en repositorios.
+Buenas prácticas
+Estrategias para crear flujos efectivos en GitHub Actions.
+
+
+Github Actions es una plataforma de integración y despliegue continuo CI/CD (Continuous Integration / Continuous Deployment) que permite automatizar procesos de compilación, pruebas y despliegue.
+
+El flujo CI/CD consta en 8 secciones que se repetirán cíclicamente, 4 para CI y 4 para CD.
+
+CI:
+
+Plan: Toda la etapa previa donde planificamos los features que integraremos al proyecto.
+Code: El código que hemos desarrollado.
+Build: Compilar o Interpretar el código para dejarlo listo para ser usado por algún host o fuente.
+Test: Correr todas las pruebas desarrolladas para asegurar que el código funcione correctamente.
+CD:
+
+Release: Enviar nuestra build a la locación remota donde se aloja el proyecto.
+Deploy: Reconfigurar y relanzar los servicios del proyecto con los nuevos features.
+Operate: Mantener el proyecto a flote.
+Measure: Medir con métricas la calidad del servicio.
+
+
+MAIN COMPONENTS 
+
+WORKFLOW 
+JOBS
+STEPS
+ACTIONS 
+
+EVENTS
+RUNNERS
+
+- Workflows:
+
+Es un proceso automatizado configurable que ejecutará en GitHub uno o mas Jobs.
+Se define mediante un archivo .YAML en el directorio .github/workflows del repositorio.
+Un repositorio puede tener varios workflows, por ej: workflow de build, de deploy tests unitarios, tests de integración, tests e2e. Cada uno en su propio archivo.
+
+- Jobs:
+
+Es un conjunto de Steps (pasos o tareas) en un Workflow que se ejecutan en un mismo runner.
+Los steps se ejecutarán en orden, en forma secuencial, y uno será dependiente de otro. Por ejemplo, si hay 3 Steps, y falla el segundo, el tercero ya no correrá.
+Al ser ejecutados en un mismo Runner, los Steps pueden compartir datos o variables uno a otros.
+En los archivos de configuración, se declara como "jobs", seguido de los steps que contendrá.
+
+- Steps:
+
+Puede ser un script de shell (linea de comandos).
+Puede ser un Action que se ejecutará.
+En los archivos de configuración, se declara como "steps".
+En los archivos de configuración, en caso de ejecutar un script, lo declararemos más hacia abajo con "run" seguido del comando. Ejemplo: run: npm install.
+En los archivos de configuración, en caso de ejecutar un action, lo declararemos más hacia abajo con "uses", seguido del action. Ejemplo: uses: actions@action.
+
+Actions:
+
+Aplicación personalizada que realiza una tarea compleja repetitiva.
+Ayuda a reducir código repetido, puede ser algo tedioso tener que configurarlo desde 0.
+Se puede usar Actions propias o Actions publicadas de GitHub.
+Algunas de las muchas acciones pueden ser, hacer un checkout de repositorio, instalar node.
+
+CHECK :  https://github.com/marketplace?type=actions.
+
+- Eventos:
+
+Un evento es una acción específica que puede llamar o lanzar el flujo de CI CD en GitHub Actions o activar un Workflow.
+Puede originarse desde Github o de forma externa mediante una api rest.
+Algunos eventos desde GitHub pueden ser, pull requests, push a una rama específica, creación de un GitHub Issue, etc.
+Eventos mediante api rest pueden ser, un botón en la aplicación que llame a una api que lanze un proceso que cree una nueva versión de la aplicación o alguna llamada a api cualquiera.
+En los archivos de configuración, se declara como "on", seguido del nombre del evento en una lista. Ejemplo: on: [pull_request]
+
+- Runners:
+
+Es un servidor o una máquina que va a correr la serie de pasos de nuestro flujo de CI CD.
+Un runner puede ejecutar solo un Job a la vez.
+GitHub provee runners de Ubuntu, Windows y MacOS.
+En caso de tenerlo, puede configurar y usarse un servidor propio para correrlo como runner en GitHub Actions.
+En los archivos de configuración, se declara como "runs-on", seguido del nombre de la máquina, por recomendación suele ser "ubuntu-latest".
+Ejemplo: runs-on: ubuntu-latest
+
+El formato YAML se utiliza para definir un Workflow, y se suele alojar en la carpeta .github de tu repositorio. Un archivo de workflow está organizado jerárquicamente, con etiquetas para identificar diferentes secciones, como Jobs y Steps.
+
+**Action (Acción)**Es una unidad reutilizable dentro de un step. Pueden ser personalizadas o provenientes del marketplace de GitHub. Ejemplo: una acción puede instalar dependencias, ejecutar pruebas o desplegar código automáticamente.
+
+CLASS-EG: 
+
+name: Aprendiendo GitHub Actions
+run-name: ¡Estoy aprendiendo GitHub Actions!
+on: [push]
+jobs:
+  hola-mundo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir variable
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+      - name: Correr script
+        run: python hola_mundo.py
+
+
+WORKFLOW 
+
+- *name: Aprendiendo GitHub Actions* → Es el nombre del Workflow que aparecerá en la sección de Actions en Github (opcional pero recomendadisimo).
+- *run-name: ¡Estoy aprendiendo GitHub Actions!* → Es el nombre específico del Workflow que aparecerá en la pestaña de Actions en Github (Opcional).
+- *on: [push]* → Esta se divide en 2. El “on” será la etiqueta que determine los triggers por los que se activará el Workflow; el [push] será el trigger por el que ha sido activado. Como es una lista, puedes agregar más triggers.
+- *jobs* → Agrupará todos los jobs que ocurrirán en el Workflow (no contiene valor).
+- *hola-mundo* → Esta es el identificador del job, así se diferenciará del resto (no puede contener espacios).
+- *runs-on: ubuntu-latest* → Especificará el tipo de Runner para este job.
+- *steps* → Agrupará todos los steps del job. Existen 2 tipos de steps, los que correrán actions del Marketplace o comandos de shell.
+- *name: Checkout* → Nombre del step, su identificador. (también es opcional pero es recomendado usarla).
+- *uses: actions/checkout@v3* → En este caso se usa la etiqueta uses para importar un action.
+- *run: python hola_mundo.py* → En este otro caso se usa la etiqueta run para correr un comando o script.
+
+
+WorkFlows 
+
+Triggers :
+
+Triggers en GitHub Actions:
+Push: Se activa al hacer un push en ramas específicas. Se pueden definir ramas y tipos de archivos (ej. *.js).
+Pull Request: Se activa al abrir, cerrar, o modificar un pull request. Se pueden especificar tipos como opened, labeled.
+Issues: Similar a pull requests, se activa al abrir, cerrar o editar issues.
+Issue Comment: Se activa al crear o eliminar comentarios en issues o pull requests.
+Workflow Dispatch: Permite iniciar workflows manualmente con parámetros específicos.
+Schedule: Programa tareas a intervalos específicos usando cron.
+
+
+
+
+GH ACTIONS _DOCS 
+
+https://docs.github.com/en/actions/get-started/quickstart
+
+
+WORKFLOW DOCS 
+
+https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+
+
+EVENTS THAT TRIGGER WORKFLOW 
+
+https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+
+
+COURSE_REPO 
+
+https://github.com/platzi/curso-github-actions
+
+
+
+
+
