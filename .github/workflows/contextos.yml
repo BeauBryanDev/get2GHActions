@@ -1,4 +1,4 @@
-name: Reto 4 - Actions Context 
+name: Actions Context 
 
 on: [push, pull_request]
 
