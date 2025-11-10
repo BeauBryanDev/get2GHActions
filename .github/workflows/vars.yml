@@ -71,7 +71,3 @@ jobs:
           
       - name: Verificar la variable
         run: echo "Variable HM_CNTRY: ${{ vars.HM_CNTRY }}"
-        
-        
-          
-          
