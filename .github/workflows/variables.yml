@@ -1,5 +1,5 @@
 # .github/workflows/improved_vars.yml
-name: Acceso y Uso de Variables de Repositorio
+name: GH ENV VARS ACCESS
 run-name: Ejecución de Variables de GitHub
 
 on:
