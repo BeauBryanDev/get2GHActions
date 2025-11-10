@@ -38,4 +38,5 @@ jobs:
     
       - name: echo $GITHUB_REF"
       
-        run: echo "Desplegando en la rama $GITHUB_REF"
+        run: echo "Desplegando en la rama $GITHUB_REF en el repositorio ${{github.repository}}"
+        
