@@ -1,0 +1,39 @@
+name: Getting into GH Variables
+run-name: Working with Variables
+
+on:
+  workflow_dispatch
+
+env:
+  GREETING: HELLO OVER THERE
+
+jobs:
+  greeting_user:
+    runs-on: ubuntu-latest
+
+    env:
+      QSTN: How is it going on
+
+    steps:
+      - name: Say Hello
+        run: echo "${{env.GREETING}} Today is ${{vars.DAY_OF_WEEK}} ${{env.QSTN}}, ${{vars.USRNM}}?"
+
+  despliegue_colombia:
+    name: Despliegue Específico para Colombia
+    runs-on: ubuntu-latest
+
+    if: ${{ vars.HM_CNTRY == 'Colombia' }}
+
+    steps:
+      - name: Ejecución de Tarea Específica
+        run: |
+          echo "¡Condición cumplida! La variable HM_CNTRY es 'Colombia'."
+          echo "Ejecutando scripts de despliegue específicos para la región..."
+
+      - name: Verificar la variable
+        run: echo 'Variable HM_CNTRY:' ${{ vars.HM_CNTRY }}
+        
+        
+        
+        
+        

@@ -1,0 +1,73 @@
+# .github/workflows/improved_vars.yml
+name: GH ENV VARS ACCESS
+run-name: Ejecución de Variables de GitHub
+
+on:
+  push:
+    branches:
+      - main 
+      - aprendiemdp-github-actions
+      
+  workflow_dispatch: # Permitir ejecución manual
+
+# 1. Variables de Entorno Globales (disponibles en todos los jobs)
+env:
+  DAY_OF_WEEK: Monday # Variable definida dentro del workflow (no la variable de repositorio)
+
+jobs:
+  ## 1. Job para Inspeccionar TODAS las Variables de Repositorio
+  show_all_vars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mostrar todas las Variables de Repositorio (vars)
+        run: |
+          echo "Variables de Repositorio (vars):"
+          # toJSON(vars) muestra todas las variables de repositorio disponibles
+          echo '${{ toJSON(vars) }}'
+
+  ## 2. Job de Saludo: Uso de Variables de Repositorio y de Workflow
+  saludo_variables:
+    runs-on: ubuntu-latest
+    env:
+      # Definición de Variables de ENTORNO del JOB, inyectando los valores de 'vars'
+      USUARIO_GH: ${{ vars.USRNM }} # Se accede usando vars.USER
+      PAIS_GH: ${{ vars.HM_CNTRY }} # Se accede usando vars.HM_CNTRY
+      GREET: Hi There!
+      
+    steps:
+      - name: Saludar con Variables
+        run: |
+          # Se accede a las variables inyectadas en 'env' usando la sintaxis $NOMBRE
+          echo "$GREET $USUARIO_GH, FROM $PAIS_GH. TODAY IS $DAY_OF_WEEK."
+          # Salida esperada: Hi There! [Valor de USER], FROM [Valor de HM_CNTRY]. TODAY IS Monday.
+
+  ## 3. Job Condicional: Uso de la variable de entorno del workflow
+  greeting_job:
+    runs-on: ubuntu-latest
+    env:
+      Greeting: Hello
+    steps:
+      - name: "Saludar si es Lunes"
+        # La condición 'if' evalúa la variable de entorno definida a nivel de workflow
+        if: ${{ env.DAY_OF_WEEK == 'Monday' }}
+        run: |
+          # Se usa la variable First_Name definida a nivel de step
+          echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        env:
+          First_Name: Beau 
+          
+  despliegue_colombia:
+    name: Despliegue Específico para Colombia
+    runs-on: ubuntu-latest
+    
+    if: ${{ vars.HM_CNTRY == 'Colombia' }}
+    
+    steps:
+      - name: Ejecución de Tarea Específica
+        run: |
+          echo "¡Condición cumplida! La variable HM_CNTRY es 'Colombia'."
+          echo "Ejecutando scripts de despliegue específicos para la región..."
+          # Aquí iría un script que solo debería correr para desarrolladores en Colombia
+          
+      - name: Verificar la variable
+        run: echo "Variable HM_CNTRY: ${{ vars.HM_CNTRY }}"
